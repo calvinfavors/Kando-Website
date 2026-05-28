@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { Calendar, ArrowRight, Clock, Download, ChevronDown } from "lucide-react"
+import { Calendar, ArrowRight, Clock, Download, ChevronDown, X } from "lucide-react"
 import { getSpringCleanPosts } from "@/lib/blog-data"
 import { useState } from "react"
 
@@ -12,11 +12,164 @@ function estimateReadTime(content: string): number {
   return Math.ceil(words / wordsPerMinute)
 }
 
+function ContactGateModal({
+  isOpen,
+  onClose,
+  onSubmit,
+  targetSlug,
+}: {
+  isOpen: boolean
+  onClose: () => void
+  onSubmit: (email: string, name: string) => void
+  targetSlug: string | null
+}) {
+  const [email, setEmail] = useState("")
+  const [name, setName] = useState("")
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+
+    try {
+      // Simulate API call to save contact info
+      await new Promise((resolve) => setTimeout(resolve, 800))
+      onSubmit(email, name)
+      setEmail("")
+      setName("")
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  if (!isOpen) return null
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
+
+      {/* Modal */}
+      <div className="relative bg-card rounded-2xl overflow-hidden shadow-2xl max-w-2xl w-full animate-in fade-in zoom-in-95 duration-300">
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 z-10 p-2 hover:bg-muted rounded-lg transition-colors"
+        >
+          <X className="w-5 h-5 text-foreground/60 hover:text-foreground" />
+        </button>
+
+        <div className="grid md:grid-cols-2 gap-0">
+          {/* Image Side */}
+          <div className="hidden md:flex relative aspect-square overflow-hidden bg-gradient-to-br from-olive/20 to-earth-blue/20 items-center justify-center">
+            <Image
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-objA0PEKNBo3Dwc3l1PFhVHzUauRZa.png"
+              alt="Gandalf - You Shall Not Pass"
+              width={400}
+              height={400}
+              className="object-cover w-full h-full"
+            />
+          </div>
+
+          {/* Form Side */}
+          <div className="p-8 md:p-10 flex flex-col justify-center">
+            <div className="text-center mb-6">
+              <h2 className="font-[family-name:var(--font-serif)] text-2xl md:text-3xl font-medium text-foreground mb-2">
+                YOU SHALL NOT PASS...
+              </h2>
+              <p className="text-olive font-semibold text-lg">
+                UNLESS YOU INPUT YOUR CONTACT INFORMATION
+              </p>
+            </div>
+
+            <p className="text-muted-foreground text-sm mb-6 text-center">
+              Join our Spring Clean community to unlock exclusive weekly guides, cleaning tips, and organizing strategies.
+            </p>
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
+                  Full Name
+                </label>
+                <input
+                  id="name"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Your name"
+                  required
+                  className="w-full px-4 py-2.5 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-olive focus:ring-offset-0 transition-all"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
+                  Email Address
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="your@email.com"
+                  required
+                  className="w-full px-4 py-2.5 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-olive focus:ring-offset-0 transition-all"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting || !email || !name}
+                className="w-full py-2.5 bg-olive text-white font-medium rounded-lg hover:bg-olive/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all mt-6"
+              >
+                {isSubmitting ? "Unlocking..." : "Unlock the Guides"}
+              </button>
+
+              <p className="text-xs text-muted-foreground text-center mt-4">
+                We respect your privacy. Unsubscribe anytime.
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export function BlogPageClient() {
   const [isSpringCleanExpanded, setIsSpringCleanExpanded] = useState(false)
+  const [gateModal, setGateModal] = useState<{ isOpen: boolean; targetSlug: string | null }>({
+    isOpen: false,
+    targetSlug: null,
+  })
+  const [accessedGuides, setAccessedGuides] = useState<Set<string>>(new Set())
+
   const springCleanPosts = getSpringCleanPosts()
   const mainPost = springCleanPosts.find((post) => !post.weekNumber)
   const weekPosts = springCleanPosts.filter((post) => post.weekNumber)
+
+  const handleWeekCardClick = (e: React.MouseEvent, slug: string) => {
+    if (accessedGuides.has(slug)) {
+      return // Allow navigation if already accessed
+    }
+    e.preventDefault()
+    setGateModal({ isOpen: true, targetSlug: slug })
+  }
+
+  const handleGateSubmit = (email: string, name: string) => {
+    // Store contact info (in a real app, this would be sent to a backend)
+    console.log("[v0] Contact info submitted:", { name, email })
+
+    if (gateModal.targetSlug) {
+      setAccessedGuides((prev) => new Set([...prev, gateModal.targetSlug!]))
+      setGateModal({ isOpen: false, targetSlug: null })
+
+      // Navigate to the guide after modal closes
+      setTimeout(() => {
+        window.location.href = `/blog/${gateModal.targetSlug}`
+      }, 300)
+    }
+  }
 
   return (
     <main className="min-h-screen bg-background">
@@ -139,10 +292,10 @@ export function BlogPageClient() {
             {isSpringCleanExpanded && (
               <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in duration-300">
                 {weekPosts.map((post) => (
-                  <Link
+                  <button
                     key={post.slug}
-                    href={`/blog/${post.slug}`}
-                    className="group bg-card border border-border rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col"
+                    onClick={(e) => handleWeekCardClick(e, post.slug)}
+                    className="group text-left bg-card border border-border rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col cursor-pointer"
                   >
                     {/* Image */}
                     <div className="aspect-[16/9] bg-gradient-to-br from-olive/20 to-earth-blue/20 relative overflow-hidden">
@@ -193,7 +346,7 @@ export function BlogPageClient() {
                         <ArrowRight className="w-3.5 h-3.5 ml-1 group-hover:translate-x-0.5 transition-transform" />
                       </div>
                     </div>
-                  </Link>
+                  </button>
                 ))}
               </div>
             )}
@@ -226,6 +379,14 @@ export function BlogPageClient() {
           </div>
         </div>
       </div>
+
+      {/* Contact Gate Modal */}
+      <ContactGateModal
+        isOpen={gateModal.isOpen}
+        onClose={() => setGateModal({ isOpen: false, targetSlug: null })}
+        onSubmit={handleGateSubmit}
+        targetSlug={gateModal.targetSlug}
+      />
     </main>
   )
 }
