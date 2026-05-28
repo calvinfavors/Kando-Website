@@ -1,8 +1,11 @@
+"use client"
+
 import type { Metadata } from "next"
 import Link from "next/link"
 import Image from "next/image"
-import { Calendar, ArrowRight, Clock, Download } from "lucide-react"
+import { Calendar, ArrowRight, Clock, Download, ChevronDown } from "lucide-react"
 import { getSpringCleanPosts } from "@/lib/blog-data"
+import { useState } from "react"
 
 export const metadata: Metadata = {
   title: "Blog | Spring Clean Challenge & Real Estate Insights - Kando Homes",
@@ -33,7 +36,8 @@ function estimateReadTime(content: string): number {
   return Math.ceil(words / wordsPerMinute)
 }
 
-export default function BlogPage() {
+function BlogPageClient() {
+  const [isSpringCleanExpanded, setIsSpringCleanExpanded] = useState(false)
   const springCleanPosts = getSpringCleanPosts()
   const mainPost = springCleanPosts.find((post) => !post.weekNumber)
   const weekPosts = springCleanPosts.filter((post) => post.weekNumber)
@@ -129,84 +133,92 @@ export default function BlogPage() {
             </div>
           )}
 
-          {/* Weekly Posts Section */}
+          {/* Spring Clean Series Bucket */}
           <div className="max-w-5xl mx-auto">
-            <div className="flex items-center gap-4 mb-8">
-              <h2 className="font-[family-name:var(--font-serif)] text-2xl md:text-3xl font-light text-foreground">
-                Weekly Guides
-              </h2>
-              <div className="flex-1 h-px bg-border" />
-            </div>
+            <button
+              onClick={() => setIsSpringCleanExpanded(!isSpringCleanExpanded)}
+              className="w-full group bg-gradient-to-br from-olive/5 to-earth-blue/5 border-2 border-olive/30 rounded-2xl p-8 hover:border-olive/60 hover:shadow-lg transition-all duration-300 text-left"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex-1">
+                  <span className="inline-block px-3 py-1.5 bg-olive text-white text-xs font-semibold rounded-full mb-4">
+                    14-Week Series
+                  </span>
+                  <h2 className="font-[family-name:var(--font-serif)] text-2xl md:text-3xl font-medium text-foreground mb-2">
+                    Spring Clean Weekly Guides
+                  </h2>
+                  <p className="text-muted-foreground max-w-2xl">
+                    All 14 weeks of the Spring Clean challenge guide posts—click to explore each week&apos;s topics, cleaning tips, and actionable checklists.
+                  </p>
+                </div>
+                <ChevronDown
+                  className={`w-6 h-6 text-olive transition-transform duration-300 flex-shrink-0 ml-4 ${
+                    isSpringCleanExpanded ? "rotate-180" : ""
+                  }`}
+                />
+              </div>
+            </button>
 
-            {/* Week Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {weekPosts.map((post) => (
-                <Link
-                  key={post.slug}
-                  href={`/blog/${post.slug}`}
-                  className="group bg-card border border-border rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col"
-                >
-                  {/* Image */}
-                  <div className="aspect-[16/9] bg-gradient-to-br from-olive/20 to-earth-blue/20 relative overflow-hidden">
-                    {post.image && (
-                      <Image
-                        src={post.image || "/placeholder.svg"}
-                        alt={post.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                    <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-                      <span className="inline-block px-3 py-1 bg-white/95 backdrop-blur-sm text-olive text-xs font-bold rounded-full shadow-sm">
-                        Week {post.weekNumber}
-                      </span>
-                      {post.downloadable && (
-                        <span className="inline-flex items-center gap-1 px-2 py-1 bg-olive/90 backdrop-blur-sm text-white text-xs font-medium rounded-full">
-                          <Download className="w-3 h-3" />
-                          PDF
-                        </span>
+            {/* Week Cards Grid - Expandable */}
+            {isSpringCleanExpanded && (
+              <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in duration-300">
+                {weekPosts.map((post) => (
+                  <Link
+                    key={post.slug}
+                    href={`/blog/${post.slug}`}
+                    className="group bg-card border border-border rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col"
+                  >
+                    {/* Image */}
+                    <div className="aspect-[16/9] bg-gradient-to-br from-olive/20 to-earth-blue/20 relative overflow-hidden">
+                      {post.image && (
+                        <Image
+                          src={post.image || "/placeholder.svg"}
+                          alt={post.title}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
                       )}
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-5 md:p-6 flex flex-col flex-1">
-                    <div className="flex items-center gap-3 text-sm text-muted-foreground mb-3">
-                      <div className="flex items-center gap-1.5">
-                        <Calendar className="w-3.5 h-3.5" />
-                        <time dateTime={post.date}>{post.formattedDate}</time>
-                      </div>
-                      <span className="text-border">•</span>
-                      <div className="flex items-center gap-1.5">
-                        <Clock className="w-3.5 h-3.5" />
-                        <span>{estimateReadTime(post.content)} min read</span>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                      <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+                        <span className="inline-block px-3 py-1 bg-white/95 backdrop-blur-sm text-olive text-xs font-bold rounded-full shadow-sm">
+                          Week {post.weekNumber}
+                        </span>
+                        {post.downloadable && (
+                          <span className="inline-flex items-center gap-1 px-2 py-1 bg-olive/90 backdrop-blur-sm text-white text-xs font-medium rounded-full">
+                            <Download className="w-3 h-3" />
+                            PDF
+                          </span>
+                        )}
                       </div>
                     </div>
 
-                    <h3 className="font-[family-name:var(--font-serif)] text-xl md:text-2xl font-medium text-foreground mb-3 group-hover:text-olive transition-colors">
-                      {post.title}
-                    </h3>
+                    {/* Content */}
+                    <div className="p-5 md:p-6 flex flex-col flex-1">
+                      <div className="flex items-center gap-3 text-sm text-muted-foreground mb-3">
+                        <div className="flex items-center gap-1.5">
+                          <Calendar className="w-3.5 h-3.5" />
+                          <time dateTime={post.date}>{post.formattedDate}</time>
+                        </div>
+                        <span className="text-border">•</span>
+                        <div className="flex items-center gap-1.5">
+                          <Clock className="w-3.5 h-3.5" />
+                          <span>{estimateReadTime(post.content)} min read</span>
+                        </div>
+                      </div>
 
-                    <p className="text-muted-foreground text-sm mb-4 line-clamp-2 text-pretty flex-1">{post.excerpt}</p>
+                      <h3 className="font-[family-name:var(--font-serif)] text-xl md:text-2xl font-medium text-foreground mb-3 group-hover:text-olive transition-colors">
+                        {post.title}
+                      </h3>
 
-                    <div className="flex items-center text-olive font-medium text-sm group-hover:gap-1.5 transition-all pt-4 border-t border-border mt-auto">
-                      Read Guide
-                      <ArrowRight className="w-3.5 h-3.5 ml-1 group-hover:translate-x-0.5 transition-transform" />
+                      <p className="text-muted-foreground text-sm mb-4 line-clamp-2 text-pretty flex-1">{post.excerpt}</p>
+
+                      <div className="flex items-center text-olive font-medium text-sm group-hover:gap-1.5 transition-all pt-4 border-t border-border mt-auto">
+                        Read Guide
+                        <ArrowRight className="w-3.5 h-3.5 ml-1 group-hover:translate-x-0.5 transition-transform" />
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-
-            {/* Coming Soon Placeholder */}
-            {weekPosts.length < 14 && (
-              <div className="mt-8 p-8 bg-beige/20 border border-dashed border-olive/30 rounded-xl text-center">
-                <p className="text-muted-foreground">
-                  <span className="font-medium text-foreground">More weeks coming soon!</span>
-                  <br />
-                  New guides are released every Monday through April 13, 2025.
-                </p>
+                  </Link>
+                ))}
               </div>
             )}
           </div>
@@ -240,4 +252,8 @@ export default function BlogPage() {
       </div>
     </main>
   )
+}
+
+export default function BlogPage() {
+  return <BlogPageClient />
 }
