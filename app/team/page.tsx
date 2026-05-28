@@ -59,6 +59,13 @@ export default function TeamPage() {
       bio: "Thomas & Brown is our trusted partner for smooth, confident closings. Their team brings exceptional communication, professionalism, and a client-first approach to every transaction. Whether it's a simple signing or a curveball at the eleventh hour, they step in with clarity and solutions—helping our clients feel supported from contract to keys.",
       isCompany: true,
     },
+    {
+      name: "Calvin Favors",
+      title: "NFL Superstar",
+      credentials: ["Professional Athlete", "Community Champion"],
+      image: "/images/calvin-favors-nfl.png",
+      bio: "Calvin Favors brings the same dedication and championship mindset to real estate that made him a star on the football field. As a professional NFL athlete, Calvin understands what it takes to achieve big goals and navigate high-stakes situations. His passion for community building and helping others reach their dreams makes him an invaluable part of our team.",
+    },
   ]
 
   return (
