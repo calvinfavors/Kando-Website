@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { VideoHero } from "@/components/video-hero"
+import { TestimonialsSection } from "@/components/testimonials-section"
 import { WoodstockStory } from "@/components/woodstock-story"
 import { AboutSection } from "@/components/about-section"
 import { CommunityRoots } from "@/components/community-roots"
@@ -24,6 +25,7 @@ export default function HomePage() {
   return (
     <main className="min-h-screen">
       <VideoHero />
+      <TestimonialsSection />
       <WoodstockStory />
       <AboutSection />
       <CommunityRoots />
