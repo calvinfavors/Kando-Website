@@ -5,19 +5,19 @@ import { useState } from "react"
 
 const testimonials = [
   {
-    name: "Kirstin Goff",
+    name: "Kirstin G.",
     timeframe: "3 months ago",
     stars: 5,
     text: "Jenn was awesome to work with! She was so helpful, patient, and supportive through every step of our home-buying journey. She made a stressful process feel easy and enjoyable. We are so thankful for her guidance and would 100% recommend her to anyone looking for a trustworthy and hardworking real estate agent.",
   },
   {
-    name: "Doug Harmon",
+    name: "Doug H.",
     timeframe: "3 months ago",
     stars: 5,
     text: "Jenn is fantastic! She did a great job of shepherding my elderly father through the listing and sale process. Her local knowledge was indispensable in helping us prepare the home for sale, listing it and getting it sold.",
   },
   {
-    name: "Samantha Ramey",
+    name: "Samantha R.",
     timeframe: "5 months ago",
     stars: 5,
     text: "Jenn is above and beyond, from start to finish of the home buying process. She is a fantastic advocate for her clients and is sure to make any concerns a priority.",
@@ -29,25 +29,25 @@ const testimonials = [
     text: "Working with Jenn remotely, we have purchased three homes in GA as investments. Jenn was easy to work with, quickly responded to our questions, and managed everything seamlessly across multiple transactions.",
   },
   {
-    name: "Kristen Seltenright",
+    name: "Kristen S.",
     timeframe: "10 months ago",
     stars: 5,
     text: "Jen made purchasing my home the easiest process. She took the time to understand what I was looking for and kept me apprised of every step of the process.",
   },
   {
-    name: "Emily Kosek",
+    name: "Emily K.",
     timeframe: "1 year ago",
     stars: 5,
     text: "Jenn was a real estate super hero in helping us purchase our new home! Held our hand and patiently explained every step of the process as first time buyers. Very personable and professional in all aspects—agent turned friend for sure!",
   },
   {
-    name: "Steve Brown",
+    name: "Steve B.",
     timeframe: "1 year ago",
     stars: 5,
     text: "Jenn is more than a regular realtor—she is amazing! Jenn understood what I needed from our first coffee, found the perfect home I was looking for in Cartersville GA, and negotiated an advantageous purchase price.",
   },
   {
-    name: "Daniel Taylor",
+    name: "Daniel T.",
     timeframe: "10 months ago",
     stars: 5,
     text: "Jenn is the best realtor around! If you want an easy experience and expert insight to find the right home, definitely call Jenn.",
@@ -88,7 +88,7 @@ export function TestimonialsSection() {
               {/* Stars */}
               <div className="flex gap-1 mb-4">
                 {Array.from({ length: testimonial.stars }).map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-olive text-olive" />
+                  <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                 ))}
               </div>
 
