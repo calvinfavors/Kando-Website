@@ -106,6 +106,13 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* Brand lifestyle palette */
+  --color-olive: var(--primary);
+  --color-beige: var(--secondary);
+  --color-earth-blue: var(--accent);
+  --color-terracotta: var(--tertiary);
+
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);

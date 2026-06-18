@@ -1,7 +1,14 @@
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Mail, Phone } from "lucide-react"
+import { Mail, Phone, Dumbbell, Flower2, Dog, Mountain } from "lucide-react"
 import Link from "next/link"
+
+const passions = [
+  { icon: Dumbbell, label: "Fitness & wellness" },
+  { icon: Flower2, label: "Gardening" },
+  { icon: Dog, label: "Fostering rescue dogs" },
+  { icon: Mountain, label: "Hiking the trails" },
+]
 
 export function AboutSection() {
   return (
@@ -43,12 +50,25 @@ export function AboutSection() {
             </p>
 
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Three years later, I got my real estate license. Not because I wanted a career change, but because I wanted to help other people experience what I felt — that moment when you walk into a house and know you&apos;re home.
+              When I&apos;m not helping clients, you&apos;ll find me chasing a sunrise workout, digging in my garden, lacing up for a trail hike, or making room on the couch for the next foster dog. Those are the things that make a house feel like home — and they shape how I help families find theirs.
             </p>
 
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Today, I blend my love for this community with a relationship-first approach to real estate. I&apos;m not here to sell you a house. I&apos;m here to help you find your place in a community that will embrace you the way it embraced me.
+              I blend my love for this community with a relationship-first approach to real estate. I&apos;m not here to sell you a house. I&apos;m here to help you find your place in a community that will embrace you the way it embraced me.
             </p>
+
+            {/* Passions */}
+            <div className="flex flex-wrap gap-3 pt-2">
+              {passions.map((passion) => (
+                <span
+                  key={passion.label}
+                  className="inline-flex items-center gap-2 rounded-full bg-olive/10 px-4 py-2 text-sm font-medium text-olive"
+                >
+                  <passion.icon size={16} />
+                  {passion.label}
+                </span>
+              ))}
+            </div>
 
             {/* Contact Info */}
             <div className="flex flex-wrap gap-6 pt-4">

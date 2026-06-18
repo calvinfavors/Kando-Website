@@ -55,8 +55,8 @@ export function VideoHero() {
     <section className="relative h-screen w-full overflow-hidden bg-neutral-900">
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/327-20nobleman-20highres-5.jpg"
-          alt="Beautiful home interior"
+          src="/images/hero-lifestyle.png"
+          alt="Welcoming craftsman home with a front porch in North Georgia at golden hour"
           fill
           className="object-cover"
           priority
@@ -68,16 +68,16 @@ export function VideoHero() {
       <div className="relative z-10 h-full flex flex-col items-center justify-center px-6 sm:px-8 lg:px-12">
         <div className="max-w-5xl mx-auto text-center space-y-8 md:space-y-10">
           <p className="text-white/80 uppercase tracking-[0.25em] text-sm font-medium animate-fade-in-up">
-            Woodstock, Georgia
+            Woodstock &amp; North Georgia
           </p>
-          
-          <h1 className="font-[family-name:var(--font-serif)] text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light text-white leading-[1.1] tracking-tight animate-fade-in-up stagger-1">
-            <span className="block text-balance">Where Small-Town Charm</span>
-            <span className="block text-balance">Meets Big Dreams</span>
+
+          <h1 className="font-[family-name:var(--font-serif)] text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light text-white leading-[1.12] tracking-tight animate-fade-in-up stagger-1">
+            <span className="block text-balance">Helping people find homes</span>
+            <span className="block text-balance">that fit the life they want to live.</span>
           </h1>
 
-          <p className="text-xl sm:text-2xl md:text-3xl text-white/90 font-light max-w-3xl mx-auto leading-relaxed animate-fade-in-up stagger-2 px-4">
-            A place where neighbors know your name, front porches invite conversation, and home means something more.
+          <p className="text-xl sm:text-2xl md:text-3xl text-white/90 font-light max-w-3xl mx-auto leading-relaxed animate-fade-in-up stagger-2 px-4 text-pretty">
+            Homeownership is about more than square footage. It&apos;s about community, lifestyle, and finding your place — guided by someone who truly knows North Georgia.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-5 justify-center pt-6 md:pt-8 animate-fade-in-up stagger-3">
